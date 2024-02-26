@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<title>Email</title>
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'/>
+</head>
+<body>
+	<img class="logo3" src="https://e-star.ph/images/mmsu.png" alt="MMSU Logo">
+	<div class="container">
+		<header> Forgot Password </header>
+
+		<form action="{{ url_for('change_password') }}" method="post" onsubmit="return validateForm()">
+
+            <div class="field email-field">
+                <div class="input-field">
+                    <input type="email" placeholder="Enter Your Email" class="email" name="email" id="email" required />
+                </div>
+                <span class="error email-error">
+                    <i class="bx bx-error-circle  error-icon"> </i>
+                    <p class="error-text">Please enter a valid email</p>
+                </span>
+            </div>
+        
+            <div class="field text-field">
+                <div class="input-field">
+                    <input type="text" placeholder="Enter Your Invite Code" class="inv_code" name="inv_code" id="inv_code" required />
+                </div>
+                <span class="error name-error">
+                    <i class="bx bx-error-circle error-icon"> </i>
+                    <p class="error-text">Invalid Invite Code</p>
+                </span>
+            </div>
+        
+            <div class="input-field button">
+                <input type="submit" value="Submit Now" />
+            </div>
+        
+        </form>
+    </div>
+
+
+    <script src="{{ url_for('static', filename='script2.js') }}"></script>
+	<script>
+        function validateForm() {
+            var email = document.getElementById('email').value;
+            var invCode = document.getElementById('inv_code').value;
+
+            // Your validation logic here
+            if (email.trim() === '') {
+                alert('Please enter a valid email.');
+                return false;
+            }
+
+            if (invCode.trim() === '') {
+                alert('Please enter a valid invite code.');
+                return false;
+            }
+
+            // If validation passes, the form will be submitted
+            return true;
+        }
+    </script>
+    <script src="{{ url_for('static', filename='javascripts/schedule.js') }}"></script>
+</body>
+</html>
