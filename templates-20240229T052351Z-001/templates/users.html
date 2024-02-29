@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/users/style_user.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/users/style.css') }}">
+    <title>Responsive Dashboard Design #1 | AsmrProg</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Sidebar Section -->
+        <aside>
+
+            <div class="Logo">
+                <div class="logo">
+                    <img src="../static/images/LOGO-MMSU.png">
+                    <h2 style="color: darkgreen;">G0<span class="danger">Nursery</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <a href="index">
+                    <span class="material-icons-sharp">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+
+                <a href="control">
+                    <span class="material-icons-sharp">settings_remote</span>
+                    <h3>Control</h3>
+                </a>   
+
+                <a href="feed">
+                    <span class="material-icons-sharp live-icon">
+                        live_tv
+                    </span>
+                    <h3>Feed</h3>
+                </a>
+    
+                <a href="alerts">
+                    <span class="material-symbols-outlined">
+                        notifications
+                        </span>
+                    <h3>Scheduler</h3>
+                    <span class="message-count">27</span>
+                </a>
+
+                <a href="users" class="active">
+                    <span class="material-symbols-outlined">
+                        manage_accounts
+                        </span>
+                    <h3>User</h3>
+                </a>
+
+                <a href="about">
+                    <span class="material-symbols-outlined">
+                        help
+                    </span>
+                    <h3>About Us</h3>
+                </a>
+
+                <a href="main_login" onclick="confirmLogout()">
+                    <span class="material-icons-sharp">
+                        logout
+                    </span>
+                    <h3>Logout</h3>
+                </a>
+
+            </div>
+        </aside>
+        <div class="main">
+            <h1>Edit Profile</h1>
+            <div class="prof_back">
+                <!-- <img class="mmsubacks" src="/mmsubackj.jpg" alt="mmsu main"> -->
+                <div class="container-profile">
+                    <img class="profile_image" id="profileImage" src="/static/images/Prof_placeH.png" alt="profile_pic">
+                    <a id="openModalBtn" href="#" data-toggle="modal" data-target="#uploadModal"><img src="/static//images/4100771.png" alt=""></a>
+                </div>
+            </div>
+
+            <div id="myModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" id="closeModalBtn">&times;</span>
+                    <h2>Upload Image</h2>
+                    <img class="image_input_modal" id="uploadedImage" alt="Uploaded Image" src="/static/images/Prof_placeH.png">
+                    <input class="select_img" type="file" id="imageInput" accept="image/*">
+                </div>
+            </div>
+
+            <div class="info">
+                <form action="{{ url_for('update_user') }}" method="post" enctype="multipart/form-data">
+                   
+                    <div class="form-group">
+                        <label for="name">Fullname:</label>
+                        <input type="text" name="fname" placeholder="Full Name" value="{{ session['name'] }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email: </label>
+                        <input type="email" name="email" placeholder="Email Address" value="{{ session['email'] }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Old-Password">Old-Password:</label>
+                        <input type="password" name="old_password" placeholder="Old Password" required>
+                    </div>
+                    <div class="form-group_modal">
+                        <input type="checkbox" id="change_password" name="change_password">
+                        <label for="change_password">Change Password</label>
+                    </div>
+                    <div class="form-group" id="new_password_group" style="display: none;">
+                        <label for="New-Password">New-Password:</label>
+                        <input type="password" name="new_password" placeholder="New Password">
+                    </div>
+                    <div class="operation">
+                        <a href="{{ url_for('index') }}">Cancel</a>
+                        <button type="submit">Submit</button>
+                    </div>
+                    
+                </form>
+                </div>
+                
+        </div>            
+
+        
+
+        <!-- End of Main Content -->
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>   
+
+            </div>
+            <!-- End of Nav -->
+
+        </div>
+
+
+    </div>
+    <script src="{{ url_for('static', filename='javascripts/schedule.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/dashboard/publish_sensor_data.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascripts/users/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='orders.js') }}"></script>
+    <script>
+        document.getElementById('change_password').addEventListener('change', function () {
+            var newPasswordGroup = document.getElementById('new_password_group');
+            newPasswordGroup.style.display = this.checked ? 'flex' : 'none';
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+    var profile_main = document.getElementById('profileImage');
+    var modal = document.getElementById('myModal');
+    var openBtn = document.getElementById('openModalBtn');
+    var closeBtn = document.getElementById('closeModalBtn');
+    var imageInput = document.getElementById('imageInput');
+    var uploadedImage = document.getElementById('uploadedImage');
+
+    // Open modal
+    openBtn.onclick = function () {
+        modal.style.display = 'block';
+    };
+
+    // Close modal
+    closeBtn.onclick = function () {
+        modal.style.display = 'none';
+    };
+
+    // Close modal if the user clicks outside of it
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+// Handle image upload
+imageInput.addEventListener('change', function (event) {
+        var file = event.target.files[0];
+
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                
+                profile_main.src = e.target.result;
+                modal.style.display = 'none';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+});
+    </script>
+</body>
+
+</html>
